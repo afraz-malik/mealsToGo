@@ -10,17 +10,23 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.2.2",
+    "@expo-google-fonts/oswald": "^0.2.2",
     "expo": "~43.0.2",
+    "expo-font": "~10.0.3",
+    "expo-google-fonts": "^0.0.0",
     "expo-status-bar": "~1.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-paper": "^4.11.1",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@react-native-community/eslint-config": "^3.0.1",
+    "@types/styled-components": "^5.1.19",
     "eslint": "^8.5.0",
     "prettier": "^2.5.1"
   },

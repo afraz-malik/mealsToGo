@@ -1,27 +1,36 @@
 import React from 'react'
-import { StatusBar as ExpoStatusBar } from 'expo-status-bar'
 import { StatusBar, StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import { Searchbar } from 'react-native-paper'
-import RestaurantsInfo from '../components/restaurants-info'
+import RestaurantCard from '../components/restaurant-card'
+import styled from 'styled-components/native'
+
+const StyledSaveAreaView = styled(SafeAreaView)`
+  flex: 1;
+  margin-top: ${StatusBar.currentHeight}px;
+`
+const StyledSearchView = styled(View)`
+  padding: ${(props) => props.theme.space[3]};
+`
+const StyledRestaurantCard = styled(View)`
+  background-color: ${(props) => props.theme.colors.bg.primary};
+  flex: 1;
+  padding: ${(props) => props.theme.space[3]};
+`
 export const Restaurants = () => {
   const [searchQuery, setSearchQuery] = React.useState('')
   const onChangeSearch = (query) => setSearchQuery(query)
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-      <View style={styles.search}>
+    <StyledSaveAreaView>
+      <StyledSearchView>
         <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}
           value={searchQuery}
         />
-      </View>
-      <RestaurantsInfo />
-      <ExpoStatusBar style="auto" />
-    </SafeAreaView>
+      </StyledSearchView>
+      <StyledRestaurantCard>
+        <RestaurantCard />
+      </StyledRestaurantCard>
+    </StyledSaveAreaView>
   )
 }
-const styles = StyleSheet.create({
-  search: {
-    padding: 10,
-  },
-})
