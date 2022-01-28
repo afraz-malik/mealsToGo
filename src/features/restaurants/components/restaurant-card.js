@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import { Card } from 'react-native-paper'
 import { SvgXml } from 'react-native-svg'
 
@@ -30,18 +30,26 @@ const RestaurantCard = ({ restaurants = {} }) => {
     padding: ${(props) => props.theme.space[2]};
   `
   const Row = styled.View`
-    padding: ${(props) => props.theme.space[2]};
+    padding-top: ${(props) => props.theme.space[2]};
+    padding-bottom: ${(props) => props.theme.space[2]};
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+  `
+  const MoveEnd = styled.View`
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-end;
   `
   const Rating = styled.View`
     padding-top: ${(props) => props.theme.space[2]};
     padding-bottom: ${(props) => props.theme.space[2]};
     flex-direction: row;
+    align-items: flex-start;
   `
   const {
-    name = 'Some Restaurant',
-    icon,
+    name = 'Restaurant',
+    icon = 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png',
     images = ['https://picsum.photos/700'],
     isOpen = false,
     rating = 4,
@@ -55,10 +63,18 @@ const RestaurantCard = ({ restaurants = {} }) => {
         <Row>
           <Rating>
             {[...Array(Math.floor(rating))].map(() => (
-              <SvgXml xml={star} width={20} height={20} />
+              <SvgXml xml={star} width={18} height={18} />
             ))}
           </Rating>
-          <SvgXml xml={open} width={40} height={40} />
+          <MoveEnd>
+            {!isOpen ? (
+              <Text varient="label" style={{ color: 'red', fontSize: 14 }}>
+                Closed Temporarily
+              </Text>
+            ) : null}
+            <SvgXml xml={open} width={22} height={22} />
+            <Image style={{ width: 20, height: 20 }} source={{ uri: icon }} />
+          </MoveEnd>
         </Row>
 
         <Address>100 Some street</Address>
