@@ -1,85 +1,55 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { Card } from 'react-native-paper'
+import { Image } from 'react-native'
 import { SvgXml } from 'react-native-svg'
-
-import styled from 'styled-components/native'
+import { Text } from '../../../components/typo/Text'
 import open from '../../../../assets/open'
 import star from '../../../../assets/star'
-
-const RestaurantCard = ({ restaurants = {} }) => {
-  const RestaurantCard = styled(Card)`
-    background-color: white;
-    padding: ${(props) => props.theme.space[3]};
-  `
-  const RestaurantCardCover = styled(Card.Cover)`
-    padding: ${(props) => props.theme.space[2]};
-    background-color: ${(props) => props.theme.colors.bg.primary};
-  `
-  const Address = styled.Text`
-    font-family: ${(props) => props.theme.fonts.body};
-    font-size: ${(props) => props.theme.fontSizes.caption};
-  `
-
-  const Title = styled.Text`
-    font-family: ${(props) => props.theme.fonts.heading};
-    font-size: ${(props) => props.theme.fontSizes.body}
-    color: ${({ theme }) => theme.colors.ui.primary};
-  `
-  const Info = styled.View`
-    padding: ${(props) => props.theme.space[2]};
-  `
-  const Row = styled.View`
-    padding-top: ${(props) => props.theme.space[2]};
-    padding-bottom: ${(props) => props.theme.space[2]};
-    flex-direction: row;
-    align-items: center;
-  `
-  const MoveEnd = styled.View`
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    justify-content: flex-end;
-  `
-  const Rating = styled.View`
-    padding-top: ${(props) => props.theme.space[2]};
-    padding-bottom: ${(props) => props.theme.space[2]};
-    flex-direction: row;
-    align-items: flex-start;
-  `
+import { Spacer } from '../../../components/spacer/Spacer'
+import {
+  RestaurantCard as RCard,
+  RestaurantCardCover,
+  Address,
+  Info,
+  Row,
+  MoveEnd,
+  Rating,
+} from './restaurant-card-styles'
+const RestaurantCard = ({ restaurant = {} }) => {
   const {
     name = 'Restaurant',
     icon = 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png',
-    images = ['https://picsum.photos/700'],
+    photos = ['https://picsum.photos/700'],
     isOpen = false,
     rating = 4,
-  } = restaurants
+    address = '100 some street',
+  } = restaurant
   return (
-    <RestaurantCard elevation={5}>
+    <RCard elevation={5}>
       {/* <Card.Content></Card.Content> */}
-      <RestaurantCardCover key={name} source={{ uri: images[0] }} />
+      <RestaurantCardCover
+        key={name}
+        source={{ uri: photos[0] || 'https://picsum.photos/700' }}
+      />
       <Info>
-        <Title>{name}</Title>
+        <Text variant="label">{name}</Text>
         <Row>
           <Rating>
-            {[...Array(Math.floor(rating))].map(() => (
-              <SvgXml xml={star} width={18} height={18} />
+            {[...Array(Math.floor(rating))].map((_, i) => (
+              <SvgXml xml={star} width={18} height={18} key={i} />
             ))}
           </Rating>
           <MoveEnd>
-            {!isOpen ? (
-              <Text varient="label" style={{ color: 'red', fontSize: 14 }}>
-                Closed Temporarily
-              </Text>
-            ) : null}
+            {!isOpen ? <Text variant="error">Closed Temporarily</Text> : null}
+            <Spacer position="left" size="medium"></Spacer>
             <SvgXml xml={open} width={22} height={22} />
+            <Spacer position="left" size="medium"></Spacer>
             <Image style={{ width: 20, height: 20 }} source={{ uri: icon }} />
           </MoveEnd>
         </Row>
 
-        <Address>100 Some street</Address>
+        <Address>{address}</Address>
       </Info>
-    </RestaurantCard>
+    </RCard>
   )
 }
 

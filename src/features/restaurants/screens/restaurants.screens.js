@@ -1,36 +1,45 @@
-import React from 'react'
-import { StatusBar, StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import { Searchbar } from 'react-native-paper'
+import React, { useContext } from 'react'
+import { FlatList, View, SafeAreaView } from 'react-native'
 import RestaurantCard from '../components/restaurant-card'
 import styled from 'styled-components/native'
+import { Spacer } from '../../../components/spacer/Spacer'
+import { RestaurantsContext } from '../../../services/restaurants/restaurants.context'
+import { ActivityIndicator, Colors } from 'react-native-paper'
+import { SearchBar } from '../../../components/searchBar'
 
-const StyledSaveAreaView = styled(SafeAreaView)`
-  flex: 1;
-  margin-top: ${StatusBar.currentHeight}px;
-`
-const StyledSearchView = styled(View)`
-  padding: ${(props) => props.theme.space[3]};
-`
-const StyledRestaurantCard = styled(View)`
-  background-color: ${(props) => props.theme.colors.bg.primary};
-  flex: 1;
-  padding: ${(props) => props.theme.space[3]};
-`
+const StyledSaveAreaView = styled(SafeAreaView)``
+// margin-top: ${StatusBar.currentHeight}px;
+// flex: 1;
+
+const StyledFlatList = styled(FlatList).attrs({
+  contentContainerStyle: { padding: 16 },
+})``
 export const Restaurants = () => {
-  const [searchQuery, setSearchQuery] = React.useState('')
-  const onChangeSearch = (query) => setSearchQuery(query)
+  const { restaurants, errors, isLoading } = useContext(RestaurantsContext)
   return (
-    <StyledSaveAreaView>
-      <StyledSearchView>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-        />
-      </StyledSearchView>
-      <StyledRestaurantCard>
-        <RestaurantCard />
-      </StyledRestaurantCard>
-    </StyledSaveAreaView>
+    <>
+      <SearchBar />
+      <StyledFlatList
+        data={restaurants}
+        renderItem={({ item }) => {
+          return (
+            <Spacer key={item.name} position={'bottom'} size="large">
+              <RestaurantCard restaurant={item} />
+            </Spacer>
+          )
+        }}
+        keyExtractor={(item) => item.name}
+      />
+      {isLoading ? (
+        <View style={{ position: 'absolute', top: '50%', left: '50%' }}>
+          <ActivityIndicator
+            animating={true}
+            color={Colors.red800}
+            size={50}
+            style={{ marginLeft: -25 }}
+          />
+        </View>
+      ) : null}
+    </>
   )
 }
